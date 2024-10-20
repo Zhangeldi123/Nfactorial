@@ -380,17 +380,3 @@ def is_armstrong_number(n: int) -> bool:
     else:
         return False
         
-# print(factorial(5))
-# print(is_prime(-3))
-print(nth_fibonacci(1))
-# print(count_vowels("hello"))
-# print(reverse_string("hello"))
-# print(sum_of_squares(4))
-# print(is_leap_year(2020))
-# print(sum_of_digits(12345))
-# print(count_words("Hello world"))
-# print(sum_of_multiples(10, 3, 5))
-# print(gcd(27, 15))
-# print(count_characters("Hello world", 'l'))
-# print(sum_of_cubes(3))
-# print(is_armstrong_number(9474))
