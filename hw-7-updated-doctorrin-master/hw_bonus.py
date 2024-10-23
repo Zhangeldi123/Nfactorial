@@ -10,8 +10,9 @@ count_substrings("aaaaaa", "aa") -> 3
 """
 
 def count_substrings(s: str, subs: str) -> int:
-    # write your code here
-    pass
+    lst = s.split(subs)
+    return len(lst) - 1
+
 
 """
 💎 Exercise-2: find_smallest_divisor
@@ -24,8 +25,11 @@ find_smallest_divisor(49) -> 7
 """
 
 def find_smallest_divisor(n: int) -> int:
-    # write your code here
-    pass
+    lst = []
+    for i in range(2, n):
+        if n % i == 0:
+            lst.append(i)
+    return lst[0]
 
 
 """
@@ -41,8 +45,17 @@ check_divisible_by_any(23, "2 3 5") -> False
 """
 
 def check_divisible_by_any(n: int, divisors: str) -> bool:
-    # write your code here
-    pass
+    a = divisors.split()
+    b = []
+    for i in a:
+        i = int(i)
+        b.append(i)
+
+
+    for i in b:
+        if n % i == 0:
+            return True
+    return False
 
 
 """
@@ -57,8 +70,7 @@ find_nth_root(81, 4) -> 3.0
 """
 
 def find_nth_root(x: float, n: int) -> float:
-    # write your code here
-    pass
+    return x ** (1/n)
 
 
 
@@ -77,5 +89,16 @@ collatz_sequence_length(27) -> 111
 """
 
 def collatz_sequence_length(n: int) -> int:
-    # write your code here
-    pass
+    
+    steps = 0
+    
+    
+    while n != 1:
+        if n % 2 == 0:
+            n = n // 2  
+        else:
+            n = 3 * n + 1  
+        steps += 1  
+    
+    return steps
+
