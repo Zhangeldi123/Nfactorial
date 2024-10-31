@@ -141,7 +141,20 @@ memoized_function(5)  # -> This will return the cached result
 """
 
 def memoize(func):
-    pass
+    cache = {}  
+
+    def wrapper(*args, **kwargs):
+        
+        key = (args, frozenset(kwargs.items()))  
+        
+        if key in cache:
+            return cache[key] 
+        
+        result = func(*args, **kwargs)  
+        cache[key] = result 
+        return result  
+
+    return wrapper
 
 """
 Exercise-10: Custom Reduce Function
