@@ -131,6 +131,8 @@ def exercise22():
     print("Exercise 22: Начало")
     str1 = "rasp"
     str2 = "spar"
+    str1.lower()
+    str2.lower()
     lst1 = []
     lst2 = []
     for i in str1:
