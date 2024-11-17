@@ -1,6 +1,5 @@
 import sys
 
-
 art_styles = {
     "standard": r"C:\Users\Жангелди\Desktop\Nfactorial\ascii-art-project-1-doctorrin-main\standard.txt",
     "shadow": r"C:\Users\Жангелди\Desktop\Nfactorial\ascii-art-project-1-doctorrin-main\shadow.txt",
@@ -8,82 +7,77 @@ art_styles = {
 }
 
 
-args = sys.argv
-
+if len(sys.argv) < 3:
+    print("Usage: python3 main.py [--output=<fileName.txt>] [STRING] [BANNER]")
+    sys.exit(1)
 
 output_file = None
-if len(args) > 2 and '--output=' in args[1]:
-    output_file = args[1].split('=')[1]  
-    text = args[2]  
-    art_style = args[3]  
+if '--output=' in sys.argv[1]:
+    output_file = sys.argv[1].split('=')[1]
+    args = sys.argv[2:]
 else:
-    
-    output_file = None
-    if len(args) >= 2:
-        text = args[1]  
-        art_style = args[2] if len(args) > 2 else 'standard' 
-    else:
-        user_input = input("Enter text and art style (e.g., 'hello shadow'): ").strip()
-        parts = user_input.rsplit(' ', 1)
-        if len(parts) != 2:
-            print("Invalid input. Please enter in the format '<text> <art_style>'.")
-            exit()
-        text, art_style = parts
+    args = sys.argv[1:]
 
-print(f"Text: {text}, Art Style: {art_style}, Output File: {output_file}")  
 
-# Get the file path for the selected art style
+if len(args) != 2:
+    print("Usage: python3 main.py [--output=<fileName.txt>] [STRING] [BANNER]")
+    sys.exit(1)
+
+text, art_style = args
+
+
 file_path = art_styles.get(art_style.lower())
 if not file_path:
     print(f"Art style '{art_style}' not found. Available styles: {', '.join(art_styles.keys())}.")
-    exit()
-
+    sys.exit(1)
 
 try:
     with open(file_path, 'r') as file:
         lines = file.read().splitlines()
 
     ascii_art = {}
-    current_symbol_code = 32
+    current_symbol_code = 32 
     symbol_art = []
 
-    
     for line in lines:
-        if len(symbol_art) == 8:
+        if len(symbol_art) == 8:  
             ascii_art[chr(current_symbol_code)] = symbol_art
             current_symbol_code += 1
             symbol_art = []
         else:
             symbol_art.append(line)
 
-    if len(symbol_art) == 8:
+    if len(symbol_art) == 8:  
         ascii_art[chr(current_symbol_code)] = symbol_art
 
 except FileNotFoundError:
     print(f"File for art style '{art_style}' not found.")
-    exit()
+    sys.exit(1)
+
+# Function to generate ASCII art
+def generate_ascii_art(text):
+    lines = text.split("\\n")  
+    result_rows = []  
+
+    for line in lines:
+        rows = ['' for _ in range(8)]  
+        for char in line:
+            art = ascii_art.get(char, [' ' * 8] * 8) 
+            for i in range(8):
+                rows[i] += art[i] + ' ' 
+        result_rows.extend(rows)
+        result_rows.append('')  
+
+    return "\n".join(result_rows).strip()
 
 
-def display_ascii_art(text, output_file=None):
-    rows = ['' for _ in range(8)]  
-    for char in text:
-        art = ascii_art.get(char, [' ' * 8] * 8)  
-        for i in range(8):
-            rows[i] += art[i] + ' '
-
-    result = "\n".join(rows)
-
-    if output_file:
-        try:
-            
-            with open(output_file, 'w') as f:
-                f.write(result)
-            print(f"ASCII art written to {output_file}")  
-        except Exception as e:
-            print(f"Error writing to file: {e}")
-    else:
-        
-        print(result)
-
-
-display_ascii_art(text, output_file)
+result = generate_ascii_art(text)
+if output_file:
+    try:
+        with open(output_file, 'w') as f:
+            f.write(result)
+        print(f"ASCII art written to {output_file}")
+    except Exception as e:
+        print(f"Error writing to file: {e}")
+else:
+    print(result)
