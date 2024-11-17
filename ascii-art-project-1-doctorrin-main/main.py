@@ -1,27 +1,27 @@
 import sys
 
-# Define paths for the art styles
+
 art_styles = {
     "standard": r"C:\Users\Жангелди\Desktop\Nfactorial\ascii-art-project-1-doctorrin-main\standard.txt",
     "shadow": r"C:\Users\Жангелди\Desktop\Nfactorial\ascii-art-project-1-doctorrin-main\shadow.txt",
     "thinkertoy": r"C:\Users\Жангелди\Desktop\Nfactorial\ascii-art-project-1-doctorrin-main\thinkertoy.txt"
 }
 
-# Parse command-line arguments
+
 args = sys.argv
 
-# Check if output flag is provided
+
 output_file = None
 if len(args) > 2 and '--output=' in args[1]:
-    output_file = args[1].split('=')[1]  # Extract the file name after '--output='
-    text = args[2]  # The input text is the second argument
-    art_style = args[3]  # The art style is the third argument
+    output_file = args[1].split('=')[1]  
+    text = args[2]  
+    art_style = args[3]  
 else:
-    # Fallback to manual input if no args or invalid args
+    
     output_file = None
     if len(args) >= 2:
-        text = args[1]  # The input text
-        art_style = args[2] if len(args) > 2 else 'standard'  # Default to 'standard' if no style is provided
+        text = args[1]  
+        art_style = args[2] if len(args) > 2 else 'standard' 
     else:
         user_input = input("Enter text and art style (e.g., 'hello shadow'): ").strip()
         parts = user_input.rsplit(' ', 1)
@@ -30,7 +30,7 @@ else:
             exit()
         text, art_style = parts
 
-print(f"Text: {text}, Art Style: {art_style}, Output File: {output_file}")  # Debugging message
+print(f"Text: {text}, Art Style: {art_style}, Output File: {output_file}")  
 
 # Get the file path for the selected art style
 file_path = art_styles.get(art_style.lower())
@@ -38,7 +38,7 @@ if not file_path:
     print(f"Art style '{art_style}' not found. Available styles: {', '.join(art_styles.keys())}.")
     exit()
 
-# Read the ASCII art file
+
 try:
     with open(file_path, 'r') as file:
         lines = file.read().splitlines()
