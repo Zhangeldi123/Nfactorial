@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: #4CAF50;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .comments-wrapper {
+            max-height: 400px; /* Set a fixed height for the comments section */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding-right: 10px;
+        }
+        .comment {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .comment-category {
+            font-size: 12px;
+            color: #555;
+            font-style: italic;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            text-decoration: none;
+            margin: 0 5px;
+            padding: 5px 10px;
+            background: #007BFF;
+            color: white;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .pagination a:hover {
+            background: #0056b3;
+        }
+        .pagination span {
+            margin: 0 5px;
+            padding: 5px 10px;
+            background: #ccc;
+            color: #333;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Comments</h1>
+        
+        <div class="comments-wrapper">
+            {% for comment in comments %}
+                <div class="comment">
+                    <p>{{ comment.body }}</p>
+                    <p class="comment-category">Category: {{ comment.category }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="pagination">
+            {% if previous_page %}
+                <a href="/comments?page={{ previous_page }}&per_page={{ per_page }}">Previous</a>
+            {% else %}
+                <span>Previous</span>
+            {% endif %}
+            
+            {% if next_page %}
+                <a href="/comments?page={{ next_page }}&per_page={{ per_page }}">Next</a>
+            {% else %}
+                <span>Next</span>
+            {% endif %}
+        </div>
+<!-- Home Link -->
+<div class="home-link">
+    <a href="/">Home</a>
+</div>
+</div>
+</body>
+</html>
+
