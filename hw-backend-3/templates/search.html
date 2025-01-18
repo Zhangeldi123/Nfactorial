@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск Машин</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #fff;
+            width: 300px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+        .results ul {
+            list-style: none;
+            padding: 0;
+        }
+        .results li {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form method="get" action="/cars/search">
+        <label for="car_name">Название машины:</label>
+        <input type="search" name="car_name" id="car_name" placeholder="Введите название..." value="{{ query }}" required>
+        <button type="submit">Найти</button>
+    </form>
+
+    {% if cars %}
+    <div class="results">
+        <ul>
+            {% for car in cars %}
+            <li>{{ car.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</body>
+</html>

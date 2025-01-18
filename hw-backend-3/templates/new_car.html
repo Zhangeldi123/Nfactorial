@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a New Car</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #fff;
+            width: 300px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action="/cars/new">
+        <h2>Add a New Car</h2>
+        <label for="name">Car Name:</label>
+        <input type="text" name="name" id="name" placeholder="Enter car name" required>
+
+        <label for="year">Year:</label>
+        <input type="number" name="year" id="year" placeholder="Enter manufacturing year" required>
+
+        <button type="submit">Add Car</button>
+    </form>
+</body>
+</html>

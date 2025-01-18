@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cars List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        li {
+            background: #ffffff;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        li span {
+            font-weight: bold;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .pagination a.disabled {
+            background-color: #ccc;
+            pointer-events: none;
+        }
+
+        .pagination a:hover:not(.disabled) {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cars List</h1>
+    <ul>
+        {% for car in cars %}
+        <li>
+            <span>{{ car.name }}</span>
+            <span>({{ car.year }})</span>
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="pagination">
+        {% if previous_page %}
+        <a href="/cars?page={{ previous_page }}&per_page={{ per_page }}">Previous</a>
+        {% else %}
+        <a class="disabled">Previous</a>
+        {% endif %}
+
+        {% if next_page %}
+        <a href="/cars?page={{ next_page }}&per_page={{ per_page }}">Next</a>
+        {% else %}
+        <a class="disabled">Next</a>
+        {% endif %}
+    </div>
+</body>
+</html>
