@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кітаптар</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background-color: #007BFF;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 10px 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .pagination a {
+      text-decoration: none;
+      color: white;
+      background-color: #007BFF;
+      padding: 10px 15px;
+      margin: 0 5px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .pagination a:hover {
+      background-color: #0056b3;
+    }
+
+    .pagination a.disabled {
+      background-color: #ccc;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Кітаптар</h1>
+  </header>
+
+  <div class="container">
+    <ul>
+      {% for book in books %}
+      <li>
+        <a href="/books/{{ book.id }}">{{ book.title }}</a> by {{ book.author }}
+      </li>
+      {% endfor %}
+    </ul>
+
+    <div class="pagination">
+      {% if previous_page %}
+      <a href="?page={{ previous_page }}&per_page={{ per_page }}">Алдыңғы</a>
+      {% else %}
+      <a class="disabled">Алдыңғы</a>
+      {% endif %}
+
+      {% if next_page %}
+      <a href="?page={{ next_page }}&per_page={{ per_page }}">Келесі</a>
+      {% else %}
+      <a class="disabled">Келесі</a>
+      {% endif %}
+    </div>
+  </div>
+</body>
+
+</html>

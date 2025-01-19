@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ book.title }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background-color: #007BFF;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .book-detail {
+      margin-bottom: 20px;
+    }
+
+    .book-detail h2 {
+      margin-top: 0;
+      color: #007BFF;
+    }
+
+    .book-detail p {
+      margin: 5px 0;
+    }
+
+    .back-link {
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      background-color: #007BFF;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-link:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Кітаптың мәліметтері</h1>
+  </header>
+
+  <div class="container">
+    <div class="book-detail">
+      <h2>{{ book.title }}</h2>
+      <p><strong>Author:</strong> {{ book.author }}</p>
+      <p><strong>Year:</strong> {{ book.year }}</p>
+      <p><strong>Total Pages:</strong> {{ book.total_pages }}</p>
+      <p><strong>Genre:</strong> {{ book.genre }}</p>
+    </div>
+
+    <a href="/books" class="back-link">Барлық кітаптар</a>
+  </div>
+</body>
+
+</html>
