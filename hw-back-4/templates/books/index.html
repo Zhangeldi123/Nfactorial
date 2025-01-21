@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="kk">
 
 <head>
   <meta charset="UTF-8">
@@ -48,6 +48,22 @@
       border-bottom: none;
     }
 
+    li a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    li a:hover {
+      color: #0056b3;
+    }
+
+    .book-details {
+      font-size: 0.9em;
+      color: #666;
+    }
+
     .pagination {
       display: flex;
       justify-content: center;
@@ -61,7 +77,7 @@
       padding: 10px 15px;
       margin: 0 5px;
       border-radius: 5px;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .pagination a:hover {
@@ -70,7 +86,13 @@
 
     .pagination a.disabled {
       background-color: #ccc;
+      color: #666;
       pointer-events: none;
+      cursor: default;
+    }
+
+    .pagination a:focus {
+      outline: 2px solid #0056b3;
     }
   </style>
 </head>
@@ -84,24 +106,29 @@
     <ul>
       {% for book in books %}
       <li>
-        <a href="/books/{{ book.id }}">{{ book.title }}</a> by {{ book.author }}
+        <a href="/books/{{ book.id }}" title="{{ book.title }} by {{ book.author }}">
+          {{ book.title }}
+        </a>
+        <div class="book-details">
+          Author: {{ book.author }} | Year: {{ book.year }} | Pages: {{ book.total_pages }} | Genre: {{ book.genre }}
+        </div>
       </li>
       {% endfor %}
     </ul>
 
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pagination">
       {% if previous_page %}
-      <a href="?page={{ previous_page }}&per_page={{ per_page }}">Алдыңғы</a>
+      <a href="?page={{ previous_page }}&per_page={{ per_page }}" aria-label="Алдыңғы бет">Алдыңғы</a>
       {% else %}
-      <a class="disabled">Алдыңғы</a>
+      <a class="disabled" aria-disabled="true" aria-label="Алдыңғы бет">Алдыңғы</a>
       {% endif %}
 
       {% if next_page %}
-      <a href="?page={{ next_page }}&per_page={{ per_page }}">Келесі</a>
+      <a href="?page={{ next_page }}&per_page={{ per_page }}" aria-label="Келесі бет">Келесі</a>
       {% else %}
-      <a class="disabled">Келесі</a>
+      <a class="disabled" aria-disabled="true" aria-label="Келесі бет">Келесі</a>
       {% endif %}
-    </div>
+    </nav>
   </div>
 </body>
 

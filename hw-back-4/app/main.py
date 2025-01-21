@@ -55,7 +55,7 @@ def get_books(request: Request, page: int = 1, per_page: int = 10):
     )
 
 
-@app.post("/books/new", response_class=HTMLResponse)
+@app.post("/books", response_class=HTMLResponse)
 def add_car(request: Request, title: str = Form(...), author: str = Form(...), year: int = Form(...), total_pages: int = Form(...), genre: str = Form(...)):
     new_book = {
         "title": title,
