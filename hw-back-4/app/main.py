@@ -67,4 +67,5 @@ def add_car(request: Request, title: str = Form(...), author: str = Form(...), y
     repository.save(new_book)
 
     return RedirectResponse(url="/books", status_code=303)
+
 # (конец решения)

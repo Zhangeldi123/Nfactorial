@@ -27,6 +27,7 @@ def get_one(request: Request, id: int):
     return templates.TemplateResponse("/books/show.html", {"request": request, "book": book})
 
 
+
 @books_router.get("/", response_class=HTMLResponse)
 def get_books(request: Request, page: int = 1, per_page: int = 10):
     books = books_repo.get_all()
@@ -89,11 +90,5 @@ def delete_book(request: Request, id: int):
     books_repo.delete(id)
     return RedirectResponse(url="/books", status_code=303)
 
-@books_router.get("/{id}/delete", response_class=HTMLResponse)
-def delete_book(request: Request, id: int):
-    book = books_repo.get_one(id)
-    if not book:
-        return Response("Not found", status_code=404, media_type="text/plain")
-    return templates.TemplateResponse("/books/delete.html", {"request": request, "book": book})
 
 # (конец решения)
