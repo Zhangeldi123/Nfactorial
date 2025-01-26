@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="kk">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кітаптар</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background-color: #007BFF;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 10px 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    li a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    li a:hover {
+      color: #0056b3;
+    }
+
+    .book-details {
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .pagination a {
+      text-decoration: none;
+      color: white;
+      background-color: #007BFF;
+      padding: 10px 15px;
+      margin: 0 5px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .pagination a:hover {
+      background-color: #0056b3;
+    }
+
+    .pagination a.disabled {
+      background-color: #ccc;
+      color: #666;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .pagination a:focus {
+      outline: 2px solid #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Кітаптар</h1>
+  </header>
+
+  <div class="container">
+    <ul>
+      {% for book in books %}
+      <li>
+        <a href="/books/{{ book.id }}" title="{{ book.title }} by {{ book.author }}">
+          {{ book.title }}
+        </a>
+        <div class="book-details">
+          Author: {{ book.author }} | Year: {{ book.year }} | Pages: {{ book.total_pages }} | Genre: {{ book.genre }}
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <nav class="pagination" aria-label="Pagination">
+      {% if previous_page %}
+      <a href="?page={{ previous_page }}&per_page={{ per_page }}" aria-label="Алдыңғы бет">Алдыңғы</a>
+      {% else %}
+      <a class="disabled" aria-disabled="true" aria-label="Алдыңғы бет">Алдыңғы</a>
+      {% endif %}
+
+      {% if next_page %}
+      <a href="?page={{ next_page }}&per_page={{ per_page }}" aria-label="Келесі бет">Келесі</a>
+      {% else %}
+      <a class="disabled" aria-disabled="true" aria-label="Келесі бет">Келесі</a>
+      {% endif %}
+    </nav>
+  </div>
+</body>
+
+</html>
