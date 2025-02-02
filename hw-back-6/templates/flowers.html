@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .flower-card {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .flower-card:hover {
+            transform: translateY(-5px);
+        }
+        .flower-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .flower-card h3 {
+            margin: 10px 0;
+            color: #007bff;
+        }
+        .flower-card p {
+            color: #555;
+            margin: 5px 0;
+        }
+        .flower-card button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .flower-card button:hover {
+            background-color: #218838;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .pagination a:hover {
+            background-color: #0056b3;
+        }
+        .pagination a.disabled {
+            background-color: #cccccc;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flower Gallery</h1>
+    <div class="container">
+        {% for flower in flowers %}
+            <div class="flower-card">
+                <img src="{{ flower.image_url }}" alt="{{ flower.name }}">
+                <h3>{{ flower.name }}</h3>
+                <p>{{ flower.description }}</p>
+                <p>Price: ${{ flower.price }}</p>
+                <form action="/cart/items" method="post">
+                    <input type="hidden" name="flower_id" value="{{ flower.flowers_id }}">
+                    <button type="submit">Add to Cart</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="pagination">
+        {% if previous_page %}
+            <a href="?page={{ previous_page }}&per_page={{ per_page }}">Previous</a>
+        {% else %}
+            <a class="disabled">Previous</a>
+        {% endif %}
+
+        {% if next_page %}
+            <a href="?page={{ next_page }}&per_page={{ per_page }}">Next</a>
+        {% else %}
+            <a class="disabled">Next</a>
+        {% endif %}
+    </div>
+</body>
+</html>
+
