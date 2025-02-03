@@ -49,11 +49,6 @@ def register(
     photo: UploadFile = File(None)
 ):
     user = User(email=email, fullname=fullname, password=password)
-    if photo:
-        photo_path = f"static/uploads/{photo.filename}"
-        with open(photo_path, "wb") as buffer:
-            buffer.write(photo.read())
-        user.photo = photo_path
     users_repo.add_user(user)
     return RedirectResponse(url="/users/login", status_code=303)
 
