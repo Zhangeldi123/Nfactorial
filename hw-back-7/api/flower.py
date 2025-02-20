@@ -9,26 +9,28 @@ flowers_repo = FlowersRepository()
 template = Jinja2Templates(directory="templates")
 
 
-@flowers_router.get("/")
-def get_all_flowers(request: Request, page: int = 1, per_page: int = 10):
-    flowers = flowers_repo.get_all_flowers()
+@flower_router.get("/")
+def get_all_flowers(request: Request, db: Session = Depends(get_db), page: int = 1, per_page: int = 10):
+    flowers = FlowersRepository.get_all_flowers(db)
+    
     start = (page - 1) * per_page
     end = start + per_page
     paginated_flowers = flowers[start:end]
-    
+
     next_page = page + 1 if end < len(flowers) else None
     previous_page = page - 1 if start > 0 else None
 
     return template.TemplateResponse(
-        "/flowers.html", 
+        "flowers.html",
         {
             "request": request,
-            "flowers": [flower for flower in paginated_flowers],
+            "flowers": paginated_flowers,
             "next_page": next_page,
             "previous_page": previous_page,
             "per_page": per_page
         }
     )
+
 
 @flowers_router.post("/")
 def add_flower(request: Request, name: str = Form(...), quantity: int = Form(...), price: float = Form(...)):

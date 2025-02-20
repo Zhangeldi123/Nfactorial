@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from models.user import User
 from schemas.user import UserCreate
-from database import get_db
+from hw_back_8.app.database import get_db
 import jwt
 from datetime import datetime
 

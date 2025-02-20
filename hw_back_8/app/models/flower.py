@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from database import Base
+from hw_back_8.app.database import Base
 
 class Flower(Base):
     __tablename__ = "flowers"
@@ -8,3 +8,4 @@ class Flower(Base):
     name = Column(String, nullable=False)
     price = Column(Integer, nullable=False)
     quantity = Column(Integer, nullable=False)
+
