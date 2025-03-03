@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Новости</h1>
+    <ul>
+        {% for news_item in news %}
+            <li>
+                <a href="{% url 'news_detail' news_item.id %}">{{ news_item.title }}</a>
+                <p><i>Опубликовано: {{ news_item.created_at }}</i></p>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_news' %}">Добавить новость</a>
+{% endblock %}
