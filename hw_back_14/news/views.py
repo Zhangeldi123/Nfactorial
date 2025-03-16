@@ -24,7 +24,7 @@ class NewsDetailView(APIView):
 
 def news_detail_view(request, news_id):
     news_item = get_object_or_404(News, id=news_id)
-    comments = news_item.comments.all()
+    comments = news_item.comments.all().order_by('-created_at')
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
