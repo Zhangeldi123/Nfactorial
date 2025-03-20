@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from .models import News, Comment
 from .serializers import NewsSerializer, CommentSerializer
 from .forms import NewsForm, CommentForm
+from django.views import View
 
 class NewsListView(APIView):
     def get(self, request):
@@ -53,3 +54,18 @@ def add_news_view(request):
     else:
         form = NewsForm()
     return render(request, 'news/add_news.html', {'form': form})
+
+#django part 4 hw
+class NewsUpdateView(View):
+    def get(self, request, pk):
+        news = get_object_or_404(News, pk=pk)
+        form = NewsForm(instance=news)
+        return render(request, 'news/news_form.html', {'form': form})
+
+    def post(self, request, pk):
+        news = get_object_or_404(News, pk=pk)
+        form = NewsForm(request.POST, instance=news)
+        if form.is_valid():
+            form.save()
+            return redirect(f'/news/{pk}/')
+        return render(request, 'news/news_form.html', {'form': form})
