@@ -18,10 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.urls import include, path
 import debug_toolbar
+from news.views import sign_up
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import views as auth_views
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__/', include(debug_toolbar.urls)),
     path("news/", include("news.urls")),
+    path('auth/', include('django.contrib.auth.urls')), 
+    path('auth/sign_up/', sign_up, name='sign_up'),
+    path('auth/login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('auth/logout/', auth_views.LogoutView.as_view(), name='logout')
 ]

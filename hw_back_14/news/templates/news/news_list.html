@@ -10,4 +10,9 @@
         {% endfor %}
     </ul>
     <a href="{% url 'add_news' %}">Добавить новость</a>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Выйти</button>
+    </form>
+    
 {% endblock %}

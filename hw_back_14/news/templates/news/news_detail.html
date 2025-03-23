@@ -2,21 +2,38 @@
 {% block content %}
     <h1>{{ news.title }}</h1>
     <p>{{ news.content }}</p>
-    <p><i>Опубликовано: {{ news.created_at }}</i></p>
-    
+    <p><i>Опубликовано: {{ news.created_at }} | Автор: {{ news.author.username }}</i></p>
+    <p>Текущий пользователь: {{ user }}</p>
+    <p>Автор новости: {{ news.author }}</p>
+    <p>Является модератором: {{ is_moderator }}</p>
+
     <h2>Комментарии</h2>
     <ul>
         {% for comment in comments %}
-            <li>{{ comment.content }} - <i>{{ comment.created_at }}</i></li>
+            <li>
+                {{ comment.content }} - <i>{{ comment.created_at }} | {{ comment.author.username }}</i>
+            </li>
         {% endfor %}
     </ul>
-    
-    <h3>Добавить комментарий</h3>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Отправить</button>
-    </form>
-    
+
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Добавить комментарий</button>
+        </form>
+    {% else %}
+        <p>Доступно для авторизованных</p>
+    {% endif %}
+
     <a href="{% url 'news_list' %}">Назад к новостям</a>
+
+    {% if user == news.author or is_moderator %}
+    <form method="post" action="{% url 'delete_news' news.id %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Удалить</button>
+    </form>
+{% endif %}
+
+
 {% endblock %}

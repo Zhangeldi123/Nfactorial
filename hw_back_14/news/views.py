@@ -4,8 +4,47 @@ from rest_framework import status
 from rest_framework.views import APIView
 from .models import News, Comment
 from .serializers import NewsSerializer, CommentSerializer
-from .forms import NewsForm, CommentForm
+from .forms import NewsForm, CommentForm, SignUpForm
 from django.views import View
+from django.shortcuts import render, redirect
+from .forms import SignUpForm
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+
+@login_required
+def delete_comment_view(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    if request.user != comment.author:
+        return HttpResponseForbidden("Вы не можете удалить этот комментарий.")
+    
+    news_id = comment.news.id
+    comment.delete()
+    return redirect('news_detail', news_id=news_id)
+
+
+@login_required
+def delete_news_view(request, news_id):
+    news = get_object_or_404(News, id=news_id)
+    if request.user != news.author:
+        return HttpResponseForbidden("Вы не можете удалить эту новость.")
+    
+    news.delete()
+    return redirect('news_list')
+
+def sign_up(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/auth/login/')
+        else:
+            print(form.errors)  # Показываем ошибки формы
+    else:
+        form = SignUpForm()
+
+    return render(request, 'registration/sign_up.html', {'form': form})
+
+
 
 class NewsListView(APIView):
     def get(self, request):
@@ -26,16 +65,28 @@ class NewsDetailView(APIView):
 def news_detail_view(request, news_id):
     news_item = get_object_or_404(News, id=news_id)
     comments = news_item.comments.all().order_by('-created_at')
+    
+    is_moderator = request.user.groups.filter(name='moderators').exists() if request.user.is_authenticated else False
+
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.news = news_item
+            comment.author = request.user
             comment.save()
             return redirect('news_detail', news_id=news_id)
     else:
         form = CommentForm()
-    return render(request, 'news/news_detail.html', {'news': news_item, 'comments': comments, 'form': form})
+    
+    return render(request, 'news/news_detail.html', {
+        'news': news_item,
+        'comments': comments,
+        'form': form,
+        'is_moderator': is_moderator,
+    })
+
+
 
 class AddNewsView(APIView):
     def post(self, request):
@@ -45,6 +96,8 @@ class AddNewsView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@login_required(login_url='/auth/login/')  # Перенаправляет на страницу логина, если не авторизован
 def add_news_view(request):
     if request.method == "POST":
         form = NewsForm(request.POST)
