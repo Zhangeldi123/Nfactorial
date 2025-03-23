@@ -16,6 +16,13 @@ class News(models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        permissions = [
+            ("can_add_news", "Can add news"),
+            ("can_change_news", "Can change news"),
+            ("can_delete_news", "Can delete news"),
+        ]
 
 class Comment(models.Model):
     news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='comments')
@@ -29,3 +36,9 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment on {self.news.title}'
+    
+    class Meta:
+        permissions = [
+            ("can_add_comment", "Can add comment"),
+            ("can_delete_comment", "Can delete comment"),
+        ]
