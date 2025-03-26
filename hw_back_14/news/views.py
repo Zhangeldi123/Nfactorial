@@ -10,6 +10,49 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseForbidden
 
 
+from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework import status
+from .models import News
+from .serializers import NewsSerializer
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
+class NewsCreatingView(LoginRequiredMixin, PermissionRequiredMixin, APIView):
+    login_url = '/auth/login/'
+    permission_required = 'news.add_news'
+
+    def post(self, request):
+        serializer = NewsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class NewsDetailsView(APIView):
+    def get(self, request, pk):
+        news = get_object_or_404(News, pk=pk)
+        serializer = NewsSerializer(news)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class NewsDeletingView(LoginRequiredMixin, PermissionRequiredMixin, APIView):
+    login_url = '/auth/login/'
+    permission_required = 'news.delete_news'
+
+    def delete(self, request, pk):
+        news = get_object_or_404(News, pk=pk)
+        news.delete()
+        return Response({"message": "Новость удалена"}, status=status.HTTP_204_NO_CONTENT)
+
+
+class NewsListingView(APIView):
+    def get(self, request):
+        news = News.objects.all()
+        serializer = NewsSerializer(news, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 @login_required(login_url='/auth/login/')
 @permission_required('news.delete_comment', raise_exception=True)
 def delete_comment_view(request, comment_id):
